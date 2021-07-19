@@ -1517,7 +1517,7 @@ pub extern "C" fn go_rust_connector(before_state: *const c_char, transactions: *
 
     //let mut expected_balances = HashMap::<i64, i64>::new();
 
-    let c_str: &CStr = unsafe { CStr::from_ptr(after_state) };
+    /*let c_str: &CStr = unsafe { CStr::from_ptr(after_state) };
     let str_slice: &str = c_str.to_str().unwrap();
     // split str_slice by |
     // iterate over the splitted strings, converting them back into events.
@@ -1539,7 +1539,7 @@ pub extern "C" fn go_rust_connector(before_state: *const c_char, transactions: *
         {
             expected_balances.insert(*(id.unwrap()), balance.unwrap());
         }*/
-    }
+    }*/
 
     let result = verify_block(&mut account_balances, &mut txn_list, &mut all_methods/*, &mut expected_balances*/) as i32;
 
