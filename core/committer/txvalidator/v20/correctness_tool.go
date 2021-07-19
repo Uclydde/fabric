@@ -105,7 +105,7 @@ func main() {
 // the before_state is in the format "address:balance|address:balance". only the accounts involved in the transactions should be in this string. otherwise the correctness tool won't work.
 // the transactions is a list of json strings.
 // the after_state is just like before_state.
-func check_correctness(before_state string, transactions *list.List, after_state string) bool {
+func check_correctness(before_state string, transactions *list.List) bool { //, after_state string) bool {
 
 	// iterates through the list of transactions, converting all of them from event objects to strings,
 	// and appends all of the strings to one master string (with | separating them).
@@ -127,16 +127,16 @@ func check_correctness(before_state string, transactions *list.List, after_state
 	// converts the input to the format needed by the correctness tool in rust (c strings)
 	state1 := C.CString(before_state)
 	txns := C.CString(txns_str)
-	state2 := C.CString(after_state)
+	//state2 := C.CString(after_state)
 
 	// frees the C pointers' memory at the end of the function.
 	defer C.free(unsafe.Pointer(state1))
 	defer C.free(unsafe.Pointer(txns))
-	defer C.free(unsafe.Pointer(state2))
+	//defer C.free(unsafe.Pointer(state2))
 
 	// passes the information (as C strings) to the correctness tool (in rust)
 	fmt.Print("go is passing ", txns_str, "\n")
-	result := C.go_rust_connector(state1, txns, state2)
+	result := C.go_rust_connector(state1, txns)//, state2)
 
 	// go doesn't support typecasting ints as bools...
 	if result == 1 {
