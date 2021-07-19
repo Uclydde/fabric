@@ -1212,7 +1212,7 @@ fn create_method(_item_key: i64, _item_val: i64, _semantics: Semantics, _type: M
 
 }*/
 
-fn verify_block(account_balances: &mut HashMap<i64, i64>, block: &mut LinkedList<Transaction>, all_methods: &mut LinkedList<Method>, expected_balances: &mut HashMap<i64, i64>) -> bool
+fn verify_block(account_balances: &mut HashMap<i64, i64>, block: &mut LinkedList<Transaction>, all_methods: &mut LinkedList<Method>/*, expected_balances: &mut HashMap<i64, i64>*/) -> bool
 {
     println!("--Verifying new block--");
     //println!("Initial account balances:");
@@ -1384,8 +1384,8 @@ fn verify_block(account_balances: &mut HashMap<i64, i64>, block: &mut LinkedList
     else
     {
         let hlf_accounts: HashSet<i64> = account_balances.keys().cloned().collect();
-        let tool_accounts: HashSet<i64> = expected_balances.keys().cloned().collect();
-        if hlf_accounts != tool_accounts
+        //let tool_accounts: HashSet<i64> = expected_balances.keys().cloned().collect();
+        /*if hlf_accounts != tool_accounts
         {
             return false
         }
@@ -1409,7 +1409,7 @@ fn verify_block(account_balances: &mut HashMap<i64, i64>, block: &mut LinkedList
                     }
                 }
             }
-        }
+        }*/
 
 
         println!("Final account balances:");
@@ -1515,7 +1515,7 @@ pub extern "C" fn go_rust_connector(before_state: *const c_char, transactions: *
         }
     }
 
-    let mut expected_balances = HashMap::<i64, i64>::new();
+    //let mut expected_balances = HashMap::<i64, i64>::new();
 
     let c_str: &CStr = unsafe { CStr::from_ptr(after_state) };
     let str_slice: &str = c_str.to_str().unwrap();
@@ -1530,7 +1530,7 @@ pub extern "C" fn go_rust_connector(before_state: *const c_char, transactions: *
         let balance = single_account.next().unwrap().parse();
 
         let id = address_unique_ids.get(address);
-        if id == None
+        /*if id == None
         {
             println!("Unknown account in after-state. This account is not involved in any transactions for this block.");
             return -1;
@@ -1538,10 +1538,10 @@ pub extern "C" fn go_rust_connector(before_state: *const c_char, transactions: *
         else
         {
             expected_balances.insert(*(id.unwrap()), balance.unwrap());
-        }
+        }*/
     }
 
-    let result = verify_block(&mut account_balances, &mut txn_list, &mut all_methods, &mut expected_balances) as i32;
+    let result = verify_block(&mut account_balances, &mut txn_list, &mut all_methods/*, &mut expected_balances*/) as i32;
 
     // TODO: take the state after the block, and compare against what's in our account_balances map. return false if they don't match (because there was a double-spend in the concurrent execution)
     // NOTE: account_balances will be updated by this point, and we can safely use it here without rust being upset.
