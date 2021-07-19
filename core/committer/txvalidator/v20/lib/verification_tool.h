@@ -9,4 +9,4 @@
 } transaction;*/
 
 //int test(transaction s);
-int go_rust_connector(char* before_state, char* transactions, char* after_state);
+int go_rust_connector(char* before_state, char* transactions);//, char* after_state);
