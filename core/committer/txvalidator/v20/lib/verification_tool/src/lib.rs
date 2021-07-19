@@ -1432,7 +1432,7 @@ pub struct transaction
 }*/
 use std::ffi::CStr;
 #[no_mangle]
-pub extern "C" fn go_rust_connector(before_state: *const c_char, transactions: *const c_char, after_state: *const c_char) -> i32
+pub extern "C" fn go_rust_connector(before_state: *const c_char, transactions: *const c_char/*, after_state: *const c_char*/) -> i32
 //pub extern "C" fn test(s: transaction) -> i32
 {
     let mut txn_list = LinkedList::<Transaction>::new();
